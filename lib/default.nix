@@ -117,6 +117,11 @@ inputs.nixpkgs.lib.extend (
         githubId = 5122800;
         name = "pikdum";
       };
+      benvinegar = {
+        github = "benvinegar";
+        githubId = 2153;
+        name = "Ben Vinegar";
+      };
     };
   }
 )

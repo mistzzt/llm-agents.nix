@@ -790,6 +790,16 @@ Nix packages for AI coding agents and development tools. Automatically updated d
 
 </details>
 <details>
+<summary><strong>hunk</strong> - Terminal diff viewer for agentic changesets</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/modem-dev/hunk
+- **Usage**: `nix run github:numtide/llm-agents.nix#hunk -- --help`
+- **Nix**: [packages/hunk/package.nix](packages/hunk/package.nix)
+
+</details>
+<details>
 <summary><strong>tuicr</strong> - Review AI-generated diffs like a GitHub pull request, right from your terminal</summary>
 
 - **Source**: source
