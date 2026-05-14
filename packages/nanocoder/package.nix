@@ -3,11 +3,15 @@
   buildNpmPackage,
   fetchFromGitHub,
   fetchPnpmDeps,
-  pnpm,
+  # Lockfile predates pnpm 11's stricter overrides validation
+  pnpm_10,
   pnpmConfigHook,
   versionCheckHook,
 }:
 
+let
+  pnpm = pnpm_10;
+in
 buildNpmPackage rec {
   pname = "nanocoder";
   version = "1.25.2";

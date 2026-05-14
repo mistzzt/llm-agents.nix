@@ -5,12 +5,16 @@
   fetchPnpmDeps,
   makeWrapper,
   nodejs,
-  pnpm,
+  # Lockfile predates pnpm 11's stricter overrides validation
+  pnpm_10,
   pnpmConfigHook,
   versionCheckHook,
   versionCheckHomeHook,
 }:
 
+let
+  pnpm = pnpm_10;
+in
 stdenv.mkDerivation (finalAttrs: {
   pname = "mcporter";
   version = "0.10.2";
@@ -36,6 +40,7 @@ stdenv.mkDerivation (finalAttrs: {
       src
       postPatch
       ;
+    inherit pnpm;
     hash = "sha256-bY3iL/pugOyTPqWVy6vLSyXmnvIv0DebkY67+1XTMqI=";
     fetcherVersion = 2;
   };

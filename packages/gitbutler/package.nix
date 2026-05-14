@@ -18,7 +18,8 @@
   nodejs,
   openssl,
   pkg-config,
-  pnpm,
+  # Lockfile predates pnpm 11's stricter overrides validation
+  pnpm_10,
   pnpmConfigHook,
   rust,
   rustPlatform,
@@ -29,6 +30,7 @@
   wrapGAppsHook4,
 }:
 let
+  pnpm = pnpm_10;
   # Workaround until https://github.com/NixOS/nixpkgs/pull/518987 lands:
   # ECM is pure CMake macros but defaults to linux/freebsd-only via
   # mkKdeDerivation, breaking turbo-unwrapped eval on Darwin.
@@ -78,6 +80,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
+    inherit pnpm;
     fetcherVersion = 2;
     hash = "sha256-/jIt0adSoKfL+4p/Y2oZTa41bHliG1wZr8sUGan9D2w=";
   };

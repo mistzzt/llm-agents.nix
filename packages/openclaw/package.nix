@@ -7,12 +7,16 @@
   git,
   makeWrapper,
   nodejs,
-  pnpm,
+  # Lockfile predates pnpm 11's stricter overrides validation
+  pnpm_10,
   pnpmConfigHook,
   versionCheckHook,
   versionCheckHomeHook,
 }:
 
+let
+  pnpm = pnpm_10;
+in
 stdenv.mkDerivation (finalAttrs: {
   pname = "openclaw";
   version = "2026.5.7";
@@ -26,6 +30,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
+    inherit pnpm;
     hash = "sha256-JXfo1vb5wVbMwBM1DogKxz2/thCXOV82dhrPq/xklc4=";
     fetcherVersion = 2;
   };
