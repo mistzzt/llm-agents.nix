@@ -32,7 +32,7 @@ stdenv.mkDerivation {
   inherit version;
 
   src = fetchurl {
-    url = "https://storage.googleapis.com/amp-public-assets-prod-0/cli/${version}/amp-${platformSuffix}";
+    url = "https://static.ampcode.com/cli/${version}/amp-${platformSuffix}";
     hash = hashes.${platform};
   };
 
