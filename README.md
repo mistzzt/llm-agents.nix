@@ -325,7 +325,7 @@ Nix packages for AI coding agents and development tools. Automatically updated d
 
 - **Source**: bytecode
 - **License**: MIT
-- **Homepage**: https://github.com/badlogic/pi-mono
+- **Homepage**: https://github.com/earendil-works/pi
 - **Usage**: `nix run github:numtide/llm-agents.nix#pi -- --help`
 - **Nix**: [packages/pi/package.nix](packages/pi/package.nix)
 
