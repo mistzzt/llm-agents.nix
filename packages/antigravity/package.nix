@@ -37,9 +37,17 @@ stdenv.mkDerivation {
 
   doInstallCheck = true;
   nativeInstallCheckInputs = [
-    versionCheckHook
     versionCheckHomeHook
-  ];
+  ]
+  ++ lib.optionals (!stdenv.hostPlatform.isLinux) [ versionCheckHook ];
+
+  installCheckPhase = lib.optionalString stdenv.hostPlatform.isLinux ''
+    runHook preInstallCheck
+
+    $out/bin/agy --help >/dev/null
+
+    runHook postInstallCheck
+  '';
 
   passthru.category = "AI Coding Agents";
 
@@ -49,7 +57,7 @@ stdenv.mkDerivation {
     changelog = "https://antigravity.google/cli";
     license = licenses.unfree;
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ ryoppippi ];
     mainProgram = "agy";
     platforms = [
       "x86_64-linux"
