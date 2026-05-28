@@ -3,33 +3,50 @@
   fetchFromGitHub,
   rustPlatform,
   pkg-config,
+  cmake,
   openssl,
   libxcb,
   dbus,
   versionCheckHook,
+  cacert,
   librusty_v8,
 }:
 
+let
+  versionData = builtins.fromJSON (builtins.readFile ./hashes.json);
+in
 rustPlatform.buildRustPackage rec {
   pname = "goose-cli";
-  version = "1.24.0";
+  inherit (versionData) version cargoHash;
 
   src = fetchFromGitHub {
-    owner = "block";
+    # Upstream moved from block/goose to aaif-goose/goose.
+    owner = "aaif-goose";
     repo = "goose";
     rev = "v${version}";
-    hash = "sha256-98psnT7hmnLav7pYFN55fj04R+avjzoc2lVpXsFN6M8=";
+    inherit (versionData) hash;
   };
 
-  cargoHash = "sha256-jZpk9x0d4JXfFGSmgi51uO774boOlUEyNhkSQMZZmSM=";
+  nativeBuildInputs = [
+    pkg-config
+    # llama-cpp-sys-2 builds llama.cpp via cmake and generates bindings with
+    # bindgen, which needs libclang at build time.
+    cmake
+    rustPlatform.bindgenHook
+  ];
 
-  nativeBuildInputs = [ pkg-config ];
+  # The cmake setup hook would otherwise try to configure the cargo project
+  # itself; llama-cpp-sys-2 invokes cmake on its own.
+  dontUseCmakeConfigure = true;
 
   buildInputs = [
     openssl
     libxcb
     dbus
   ];
+
+  # reqwest-based tests need a CA bundle to construct HTTP clients.
+  nativeCheckInputs = [ cacert ];
 
   # The v8 package will try to download a `librusty_v8.a` release at build time to our read-only filesystem
   # To avoid this we pre-download the file and export it via RUSTY_V8_ARCHIVE
@@ -51,8 +68,10 @@ rustPlatform.buildRustPackage rec {
     export XDG_CACHE_HOME=$HOME/.cache
     mkdir -p $XDG_CONFIG_HOME $XDG_DATA_HOME $XDG_STATE_HOME $XDG_CACHE_HOME
 
-    # Run tests for goose-cli package only
-    cargo test --package goose-cli --release
+    # Run tests for goose-cli package only.
+    # test_verify_provenance_warns_on_missing_attestation needs network access.
+    cargo test --package goose-cli --release -- \
+      --skip commands::update::tests::test_verify_provenance_warns_on_missing_attestation
   '';
 
   doInstallCheck = true;
@@ -62,8 +81,8 @@ rustPlatform.buildRustPackage rec {
 
   meta = with lib; {
     description = "CLI for Goose - a local, extensible, open source AI agent that automates engineering tasks";
-    homepage = "https://github.com/block/goose";
-    changelog = "https://github.com/block/goose/releases/tag/v${version}";
+    homepage = "https://github.com/aaif-goose/goose";
+    changelog = "https://github.com/aaif-goose/goose/releases/tag/v${version}";
     license = licenses.asl20;
     sourceProvenance = with sourceTypes; [ fromSource ];
     mainProgram = "goose";

@@ -195,7 +195,7 @@ Nix packages for AI coding agents and development tools. Automatically updated d
 
 - **Source**: source
 - **License**: Apache-2.0
-- **Homepage**: https://github.com/block/goose
+- **Homepage**: https://github.com/aaif-goose/goose
 - **Usage**: `nix run github:numtide/llm-agents.nix#goose-cli -- --help`
 - **Nix**: [packages/goose-cli/package.nix](packages/goose-cli/package.nix)
 

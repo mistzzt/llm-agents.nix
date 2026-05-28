@@ -1,13 +1,12 @@
-# Pre-built librusty_v8 library for goose-cli
-# This file specifies the rusty_v8 version and hashes for all supported platforms
+# Pre-built librusty_v8 library for goose-cli.
+# Version and per-platform hashes live in hashes.json (librustyV8 key) and are
+# kept in sync with goose's Cargo.lock by update.py.
 { fetchLibrustyV8 }:
 
+let
+  data = (builtins.fromJSON (builtins.readFile ./hashes.json)).librustyV8;
+in
 fetchLibrustyV8 {
-  version = "145.0.0";
-  shas = {
-    x86_64-linux = "sha256-chV1PAx40UH3Ute5k3lLrgfhih39Rm3KqE+mTna6ysE=";
-    aarch64-linux = "sha256-4IivYskhUSsMLZY97+g23UtUYh4p5jk7CzhMbMyqXyY=";
-    x86_64-darwin = "sha256-1jUuC+z7saQfPYILNyRJanD4+zOOhXU2ac/LFoytwho=";
-    aarch64-darwin = "sha256-yHa1eydVCrfYGgrZANbzgmmf25p7ui1VMas2A7BhG6k=";
-  };
+  inherit (data) version;
+  shas = data.hashes;
 }
