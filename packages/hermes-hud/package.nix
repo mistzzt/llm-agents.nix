@@ -3,6 +3,7 @@
   flake,
   python3,
   fetchFromGitHub,
+  git,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -19,16 +20,22 @@ python3.pkgs.buildPythonApplication rec {
 
   build-system = with python3.pkgs; [
     setuptools
-    wheel
   ];
 
   dependencies = with python3.pkgs; [
-    pyfiglet
     pyyaml
     textual
+    # upstream "neofetch" extra: needed for --neofetch/--br/--fsociety modes
+    pyfiglet
   ];
 
   pythonImportsCheck = [ "hermes_hud" ];
+
+  nativeCheckInputs = [
+    python3.pkgs.pytestCheckHook
+    # tests create git repos to exercise the projects collector
+    git
+  ];
 
   passthru.category = "AI Assistants";
 
