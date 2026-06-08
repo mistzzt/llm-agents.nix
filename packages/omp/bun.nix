@@ -927,9 +927,9 @@
     url = "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.3.tgz";
     hash = "sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==";
   };
-  "@types/react@19.2.16" = fetchurl {
-    url = "https://registry.npmjs.org/@types/react/-/react-19.2.16.tgz";
-    hash = "sha512-esJiCAnl0kfpNdE69f3So4WJUXy95dLZydX0KwK46riIHDzHM7O9Vtf9xCHW0PXIqvgqNrswl522kA/5yx+F4w==";
+  "@types/react@19.2.17" = fetchurl {
+    url = "https://registry.npmjs.org/@types/react/-/react-19.2.17.tgz";
+    hash = "sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==";
   };
   "@types/triple-beam@1.3.5" = fetchurl {
     url = "https://registry.npmjs.org/@types/triple-beam/-/triple-beam-1.3.5.tgz";
